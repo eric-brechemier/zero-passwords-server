@@ -53,3 +53,13 @@ need to make use of `sudo`. The scripts will never prompt for a password.
     * disable password login for SSH (remote login as any user requires keys)
     * disable root login (local login as any user requires keys, in the exact
         same way, including use of authorized_keys configured per user)
+
+## Dependencies
+
+This project uses [the pam\_ssh\_agent\_auth module][PAM_SSH_AGENT_AUTH],
+derived from [OpenSSH][OpenSSH]
+by [Jamie Beverly and other contributors][CONTRIBUTORS].
+
+[PAM_SSH_AGENT_AUTH]: http://pamsshagentauth.sourceforge.net/
+[OpenSSH]: http://www.openssh.com/
+[CONTRIBUTORS]: http://sourceforge.net/p/pamsshagentauth/code/HEAD/tree/trunk/CONTRIBUTORS
