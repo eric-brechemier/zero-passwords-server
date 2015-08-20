@@ -1,0 +1,11 @@
+#
+# This file MUST be edited with visudo:
+# sudo visudo -f ubuntu/preserve-ssh-auth-socket.sudoers
+#
+# To add this file to /etc/sudoers.d/, use:
+# ubuntu/import-sudoers-file.sh ubuntu/preserve-ssh-auth-socket.sudoers
+
+# Preserve SSH authentication socket in sudo environment
+# (needed to use SSH authentication for sudo)
+Defaults env_keep += "SSH_AUTH_SOCK"
+

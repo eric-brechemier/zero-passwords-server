@@ -1,0 +1,12 @@
+#
+# This file MUST be edited with visudo:
+# sudo visudo -f ubuntu/disable-auth-caching.sudoers
+#
+# To add this file to /etc/sudoers.d/, use:
+# ubuntu/import-sudoers-file.sh ubuntu/disable-auth-caching.sudoers
+
+# Disable caching of authentication by sudo
+# When used in combination with SSH authentication for sudo,
+# requires an active SSH session for elevation of privileges
+Defaults timestamp_timeout = 0
+
