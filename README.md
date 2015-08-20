@@ -46,7 +46,8 @@ need to make use of `sudo`. The scripts will never prompt for a password.
     * prompt you to confirm that the fingerprints match (to detect MITM)
     * create a new user with given username in the group `sudo`
     * copy authorized\_keys of root for the new user
-    * setup the PAM module for authentication using SSH agent forwarding
+    * download the PAM module for authentication via SSH agent from SourceForge
+    * setup the PAM module for sudo authentication using SSH agent forwarding
     * disable locale forwarding (the server locale is used instead,
       to avoid errors when client's locale is not available on the server)
     * disable password login for SSH (remote login as any user requires keys)
