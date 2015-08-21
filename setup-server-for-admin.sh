@@ -43,6 +43,9 @@ echo "Client: Copy the $archive to root@$server"
 scp "$archive" "root@$server:$archive" \
   || die "Client: Failed to upload $archive as root@$server"
 
+echo "Client: Delete temporary archive"
+rm "$archive"
+
 echo "Client: Unpack the archive into /root/$directory in $server"
 cat << EOF | ssh -T "root@$server" 'sh'
 if test -d "$folder"
@@ -51,6 +54,6 @@ then
 fi
 mkdir "$folder"
 cd "$folder"
-tar -xzf "../$archive"
+tar -xzf "../$archive" && rm "../$archive"
 ./main/setup.sh "$server" "$user"
 EOF
