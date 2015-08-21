@@ -18,8 +18,8 @@
 
 # List of downloads, to find latest version available:
 # http://sourceforge.net/projects/pamsshagentauth/files/pam_ssh_agent_auth/
-VERSION='0.9.5'
-MODIFIED='2013-02-22'
+VERSION='0.10.2'
+MODIFIED='2014-03-31'
 echo "Configure latest version available: $VERSION ($MODIFIED)"
 
 # Configure behavior of the authentication with regards to the stack
