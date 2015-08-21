@@ -41,7 +41,8 @@ tar -cz server ssh sudo | ssh "root@$server" "cat - > $archive" \
   || die "Client: Failed to upload $archive as root@$server"
 
 echo "Client: Unpack the archive into /root/$folder/ in $server"
-cat << EOF | ssh -T "root@$server" 'sh'
+cat << EOF | ssh -T "root@$server" 'sh' \
+  || die "Client: Failed to unpack the archive into /root/$folder in $server"
 if test -d "$folder"
 then
   rm -rf "$folder"
@@ -50,6 +51,28 @@ mkdir "$folder"
 cd "$folder"
 tar -xzf "../$archive" && rm "../$archive"
 EOF
+
+# Read the server IP from SSH_CONNECTION parameter
+# See `man ssh` and search for SSH_CONNECTION for details.
+serverIp="$(
+  ssh -T "root@$server" 'echo "$SSH_CONNECTION"' | cut -d' ' -f3
+)"
+
+echo "Client: Reset the SSH keys of the server"
+cat << EOF | ssh -T "root@$server" 'sh' \
+  || die "Client: Failed to reset SSH host keys of server"
+cd "$folder/ssh"
+./reset-host-keys.sh &&
+./print-host-fingerprints.sh
+EOF
+
+echo "Client: Remove $server ($serverIp) from local list of known hosts"
+./ssh/remove-known-server-keys.sh "$server"
+./ssh/remove-known-server-keys.sh "$serverIp"
+
+echo "Client: Check that server fingerprints match"
+ssh -T "root@$server" "./$folder/ssh/print-host-fingerprints.sh" \
+ || die "Client: Failed to check that server fingerprints match"
 
 echo "Client: Run /root/$folder/server/setup.sh on $server"
 ssh -T "root@$server" "./$folder/server/setup.sh '$server' '$user'"
