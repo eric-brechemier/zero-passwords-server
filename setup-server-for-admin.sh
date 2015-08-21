@@ -37,7 +37,7 @@ cd "$(dirname "$0")"
 folder='zero-passwords-server'
 archive="$folder.tar.gz"
 echo "Client: Package scripts to run remotely and upload them to the server"
-tar -cz ssh sudo main | ssh "root@$server" "cat - > $archive" \
+tar -cz server ssh sudo | ssh "root@$server" "cat - > $archive" \
   || die "Client: Failed to upload $archive as root@$server"
 
 echo "Client: Unpack the archive into /root/$folder/ in $server"
@@ -51,5 +51,5 @@ cd "$folder"
 tar -xzf "../$archive" && rm "../$archive"
 EOF
 
-echo "Client: Run /root/$folder/setup.sh on $server"
-ssh -T "root@$server" "./$folder/main/setup.sh '$server' '$user'"
+echo "Client: Run /root/$folder/server/setup.sh on $server"
+ssh -T "root@$server" "./$folder/server/setup.sh '$server' '$user'"

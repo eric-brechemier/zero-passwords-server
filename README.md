@@ -47,7 +47,7 @@ need to make use of `sudo`. The scripts will never prompt for a password.
     * print fingerprints of the server (for verification when prompted)
     * remove the previous SSH server keys from local list of known hosts
     * prompt you to confirm that the fingerprints match (to detect MITM)
-3. Run the script /root/zero-passwords-server/setup.sh to:
+3. Run the script /root/zero-passwords-server/server/setup.sh to:
     * create a new user with given username in the group `sudo`
     * copy authorized\_keys of root for the new user
     * download the PAM module for authentication via SSH agent from SourceForge
