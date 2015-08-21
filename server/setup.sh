@@ -77,5 +77,20 @@ echo "Server: Disable caching of authentication by sudo"
 ./sudo/import-sudoers-file.sh ./sudo/disable-auth-caching.visudo \
   || die "Server: Failed to import sudo config to disable auth caching"
 
+echo "Server: Disable locale forwarding from SSH client to SSH server"
+./ssh/disable-locale-forwarding.sh \
+  || die "Server: Failed to disable locale forwarding for SSH"
 
+echo "Server: Disable password login for SSH"
+./ssh/disable-password-login.sh \
+  || die "Server: Failed to disable password login for SSH"
 
+echo "Server: Disable root login for SSH"
+./ssh/disable-root-login.sh \
+  || die "Server: Failed to disable root login for SSH"
+
+echo "Server: Disable root password for local login on server"
+./server/disable-root-password.sh \
+  || die "Server: Failed to disable root password for local login on server"
+
+echo "Server: Setup of Zero Passwords Server Complete."

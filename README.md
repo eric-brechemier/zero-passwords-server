@@ -57,8 +57,8 @@ need to make use of `sudo`. The scripts will never prompt for a password.
     * disable locale forwarding (the server locale is used instead,
       to avoid errors when client's locale is not available on the server)
     * disable password login for SSH (remote login as any user requires keys)
-    * disable root login (local login as any user requires keys, in the exact
-        same way, including use of authorized_keys configured per user)
+    * disable root login for SSH (for extra safety)
+    * disable root password, even locally (to require authentication via SSH)
 
 ## Dependencies
 
