@@ -37,7 +37,7 @@ scp "$archive" "root@$server" \
   || die "Failed to upload $archive as root@$server"
 
 echo "Unpack the archive into /root/$directory in $server"
-cat << EOF | ssh "root@$server" || die "Failed to run setup.sh on root@$server"
+cat << EOF | ssh "root@$server"
 mkdir "$directory"
 cd "$directory"
 tar -xvzf "../$archive"
