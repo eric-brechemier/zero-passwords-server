@@ -60,4 +60,22 @@ chown "$user:$user" .ssh/authorized_keys
 sudo -H -u "$user" "./$folder/ssh/enable-authorized-keys.sh" \
   || die "Server: Failed to change permissions of authorized_keys for $user"
 
+echo "Server: Change to /root/$folder directory"
+cd "/root/$folder" \
+  || die "Server: Failed to change to /root/$folder folder"
+
+echo "Server: Download and install PAM module for authentication via SSH"
+./sudo/install-sudo-auth-via-ssh-agent.sh \
+  || die "Server: Failed to install PAM module for authentication via SSH"
+
+echo "Server: Configure sudo for PAM authentication via SSH"
+echo "Server: Preserve SSH authentication socket in sudo environment"
+./sudo/import-sudoers-file.sh ./sudo/preserve-ssh-auth-socket.visudo \
+  || die "Server: Failed to import sudo config to preserve SSH auth socket"
+
+echo "Server: Disable caching of authentication by sudo"
+./sudo/import-sudoers-file.sh ./sudo/disable-auth-caching.visudo \
+  || die "Server: Failed to import sudo config to disable auth caching"
+
+
 
