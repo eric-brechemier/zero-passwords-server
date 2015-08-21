@@ -36,17 +36,11 @@ cd "$(dirname "$0")"
 
 folder='zero-passwords-server'
 archive="$folder.tar.gz"
-echo "Client: Package all scripts to run remotely into $archive"
-tar -czf "$archive" ssh sudo main
-
-echo "Client: Copy the $archive to root@$server"
-scp "$archive" "root@$server:$archive" \
+echo "Client: Package scripts to run remotely and upload them to the server"
+tar -cz ssh sudo main | ssh "root@$server" "cat - > $archive" \
   || die "Client: Failed to upload $archive as root@$server"
 
-echo "Client: Delete temporary archive"
-rm "$archive"
-
-echo "Client: Unpack the archive into /root/$directory in $server"
+echo "Client: Unpack the archive into /root/$folder/ in $server"
 cat << EOF | ssh -T "root@$server" 'sh'
 if test -d "$folder"
 then
@@ -55,5 +49,7 @@ fi
 mkdir "$folder"
 cd "$folder"
 tar -xzf "../$archive" && rm "../$archive"
-./main/setup.sh "$server" "$user"
 EOF
+
+echo "Client: Run /root/$folder/setup.sh on $server"
+ssh -T "root@$server" "./$folder/main/setup.sh '$server' '$user'"

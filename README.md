@@ -38,12 +38,16 @@ need to make use of `sudo`. The scripts will never prompt for a password.
 
 ## Step by Step Details of Script Operation
 
-1. package all scripts to run remotely into a single tar.gz archive
-2. copy the zero-passwords-server.tar.gz archive to root@example.tld
-3. connect as root, unpack the archive, and run the script setup.sh to:
-    * reset the SSH keys of the server (safety measure)
-    * print fingerprints of the server (for validation at next step)
+1. Upload scripts to run remotely to the server:
+    * package the scripts into a compressed archive
+    * copy this archive to /root on the server
+    * extract the archive into /root/zero-passwords/server
+2. Reset the SSH keys of the server (safety measure)
+    * generate new SSH keys for the SSH server, on the server itself
+    * print fingerprints of the server (for verification when prompted)
+    * remove the previous SSH server keys from local list of known hosts
     * prompt you to confirm that the fingerprints match (to detect MITM)
+3. Run the script /root/zero-passwords-server/setup.sh to:
     * create a new user with given username in the group `sudo`
     * copy authorized\_keys of root for the new user
     * download the PAM module for authentication via SSH agent from SourceForge
