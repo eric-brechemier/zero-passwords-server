@@ -75,4 +75,4 @@ ssh -T "root@$server" "./$folder/ssh/print-host-fingerprints.sh" \
  || die "Client: Failed to check that server fingerprints match"
 
 echo "Client: Run /root/$folder/server/setup.sh on $server"
-ssh -T "root@$server" "./$folder/server/setup.sh '$server' '$user'"
+ssh -T "root@$server" "./$folder/server/setup.sh '$user'"

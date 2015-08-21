@@ -4,8 +4,7 @@
 # This script runs directly on the server.
 #
 # Parameters:
-#   $1 - string, domain name or IP of the server
-#   $2 - string, username of the admin user to create with sudo rights
+#   $1 - string, username of the admin user to create with sudo rights
 #
 # Pre-Requisite:
 # The user running the script must be allowed to access the server as root
@@ -14,13 +13,51 @@
 #
 # Project Home:
 # https://github.com/eric-brechemier/zero-passwords-server
-server="$1"
-user="$2"
+user="$1"
 
-echo "Server: Configure $server with $user as administrator"
+die()
+{
+  die_code="$?"
+  die_message="$1"
+  echo "$die_message"
+  exit "$die_code"
+}
+
+test -n "$user" || die "Server: no username given for new user"
+
+echo "Server: Configure server with $user as administrator"
 
 echo "Server: Change to the script's directory"
 cd "$(dirname "$0")"
 
+echo "Server: Create new user $user in the group of sudoers"
+../sudo/create-sudoer.sh "$user" \
+  || die "Server: Failed to create new user $user with sudo rights"
+
+echo "Server: Change to parent directory"
+cd ..
+folder="$(basename "$(pwd)")"
+
+echo "Server: Copy $folder folder to $user's home directory"
+cp -R "../$folder" "/home/$user" \
+  || die "Server: Failed to copy $folder to /home/$user"
+echo "Server: Grant ownership of /home/$user/$folder to $user"
+chown -R "$user:$user" "/home/$user/$folder" \
+  || die "Server: Failed to grand ownership of /home/$user/$folder to $user"
+
+echo "Server: Change to /home/$user/ directory"
+cd "/home/$user" \
+  || die "Server: Failed to change to /home/$user/"
+
+echo "Server: Create .ssh folder for $user"
+sudo -H -u "$user" "./$folder/ssh/create-ssh-folder.sh" \
+  || die "Server: Failed to create /home/$user/.ssh"
+
+echo "Server: Copy authorized keys of root for the user $user"
+cp /root/.ssh/authorized_keys .ssh/ \
+  || die "Server: Failed to copy /root/.ssh/authorized_keys for $user"
+chown "$user:$user" .ssh/authorized_keys
+sudo -H -u "$user" "./$folder/ssh/enable-authorized-keys.sh" \
+  || die "Server: Failed to change permissions of authorized_keys for $user"
 
 
