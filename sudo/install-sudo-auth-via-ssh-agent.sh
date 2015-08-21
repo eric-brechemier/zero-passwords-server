@@ -34,7 +34,7 @@ SOFTWARE="pam_ssh_agent_auth-${VERSION}"
 ARCHIVE="${SOFTWARE}.tar.bz2"
 DOWNLOAD_PATH="pam_ssh_agent_auth/v${VERSION}/${ARCHIVE}"
 DOWNLOAD_URL="${BASE_URL}${DOWNLOAD_PATH}"
-BUILD_DIR="/tmp/pamsshagentauth/v${VERSION}"
+BUILD_DIR="/usr/local/src/pam-ssh-agent-auth-v${VERSION}"
 PAM_PROFILE='/usr/share/pam-configs/pam-ssh-agent-auth'
 
 die()
