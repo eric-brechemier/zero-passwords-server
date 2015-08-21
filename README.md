@@ -12,6 +12,8 @@ for different flavors of UNIX systems.
 
 1. Create a new server (e.g. a VPS instance)
 2. Add public keys of server administrators to /root/.ssh/authorized\_keys.
+   Hint: use ssh-keygen to create the keys and ssh-copy-id to copy them
+   with proper permissions into /root/.ssh/authorized\_keys on the server.
    It is advised to have at least two different keys allowed for safety,
    as this procedure will completely disable password authentication
    on the server, both for SSH authentication and for root login locally.
