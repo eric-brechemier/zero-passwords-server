@@ -38,6 +38,15 @@ by connecting to the server using the newly created as user, adding
 the `-A` flag to enable SSH agent forwarding only when the scripts
 need to make use of `sudo`. The scripts will never prompt for a password.
 
+Note that on Mac OSX and other systems, the SSH agent starts with no identity
+loaded, thus no identity may be forwarded. You can load your key in the agent
+by running `ssh-add`, without any argument to load default keys, or with the
+path to a specific key. The agent will remember these keys until shutdown or
+`ssh-add` is called with the flag `-d` to forget a specific key, or the default
+keys when no argument is provided, or the flag `-D` to forget all keys.
+The keys may also be stored in Keychain, by using the flag `-K`, which will
+allow the agent to remember them across reboots.
+
 ## Step by Step Details of Script Operation
 
 1. Upload scripts to run remotely to the server:
