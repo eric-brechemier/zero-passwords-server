@@ -14,7 +14,7 @@ sudoers="${2:-sudo}"
 if test -z "$(getent passwd "$username")"
 then
   echo "Create user $username with disabled password (default behavior)"
-  sudo useradd --create-home --groups "$sudoers" "$username"
+  sudo useradd --create-home --shell /bin/bash --groups "$sudoers" "$username"
 else
   echo 'User enz exists already'
 fi
