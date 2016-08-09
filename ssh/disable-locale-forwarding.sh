@@ -20,5 +20,5 @@ sed \
   /etc/ssh/sshd_config \
   | sudo tee /etc/ssh/sshd_config
 
-sudo restart ssh
+sudo service ssh restart
 
