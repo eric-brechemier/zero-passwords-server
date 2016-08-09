@@ -11,6 +11,10 @@
 # Status:
 #   The status code of the previous command is used as status code for this
 #   utility, unless it is 0; die() always returns a non-zero status code.
+#
+# License:
+# http://creativecommons.org/publicdomain/zero/1.0/
+#
 die()
 {
   die_code=$?

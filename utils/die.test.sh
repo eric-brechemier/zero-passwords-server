@@ -7,6 +7,9 @@
 # Reference:
 #   [1] TAP (Test Anything Protocol) specification
 #   http://testanything.org/tap-specification.html
+#
+# License:
+# http://creativecommons.org/publicdomain/zero/1.0/
 
 cd "$(dirname "$0")"
 . ./die.sh
