@@ -47,7 +47,8 @@ scripts with a different user, and configure distinct SSH key pairs to access
 different servers, using `IdentityFile` directive in `~/.ssh/config`.
 The example `config` below uses `%h` (remote host name) parameter
 in the name of each private key, which allows to connect to `example.com`
-using either `example.com.rsa`, `example.com.dsa` or `example.com.ecdsa`:
+using a private key named either `example.com.rsa`, `example.com.dsa`
+or `example.com.ecdsa`:
 
 ```
 Host *
