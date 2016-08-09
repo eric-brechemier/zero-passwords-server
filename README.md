@@ -38,6 +38,29 @@ by connecting to the server using the newly created as user, adding
 the `-A` flag to enable SSH agent forwarding only when the scripts
 need to make use of `sudo`. The scripts will never prompt for a password.
 
+When agent forwarding is enabled, any script running with user privileges
+can take advantage of the agent forwarding to escalate to root privileges,
+as well as stretch the forwarding to connect to another remote server
+configured to authorize the same SSH public key used in the current connection.
+To mitigate [this risk][AGENT_FORWARDING_RISK], you can run non privileged
+scripts with a different user, and configure distinct SSH key pairs to access
+different servers, using `IdentityFile` directive in `~/.ssh/config`.
+The example `config` below uses `%h` (remote host name) parameter
+in the name of each private key:
+
+```
+Host *
+  # Only use identity files, not any identity loaded in ssh-agent
+  IdentitiesOnly yes
+  # Define pattern for the names of identity files by host
+  IdentityFile %d/.ssh/%h.rsa
+  IdentityFile %d/.ssh/%h.dsa
+  IdentityFile %d/.ssh/%h.ecdsa
+```
+
+[AGENT_FORWARDING_RISK]:
+http://unixwiz.net/techtips/ssh-agent-forwarding.html#sec
+
 Note that on Mac OSX and other systems, the SSH agent starts with no identity
 loaded, thus no identity may be forwarded. You can load your key in the agent
 by running `ssh-add`, without any argument to load default keys, or with the
