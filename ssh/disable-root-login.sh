@@ -3,6 +3,9 @@
 # Reference:
 # http://www.howtogeek.com/howto/linux/security-tip-disable-root-ssh-login-on-linux/
 
+cd "$(dirname "$0")"
+. ../util/die.sh
+
 echo 'Disable root login for SSH'
 
 # Replace:
@@ -17,7 +20,10 @@ echo 'Disable root login for SSH'
 sed \
   's/^#\?PermitRootLogin\ .*$/PermitRootLogin\ no/' \
   /etc/ssh/sshd_config \
-  | sudo tee /etc/ssh/sshd_config
+| sudo tee /etc/ssh/sshd_config.new \
+|| die 'Failed to write updated sshd_config'
+
+sudo mv /etc/ssh/sshd_config.new /etc/ssh/sshd_config
 
 sudo service ssh restart
 
