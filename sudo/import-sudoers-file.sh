@@ -11,19 +11,19 @@
 # man sudo
 # /etc/sudoers.d/README
 
-PID=$$
-FILE=$1
+pid=$$
+file=$1
 
-EXTENSION='.visudo'
-FILENAME="$(basename ${FILE} ${EXTENSION})"
-TEMP_DIR="/tmp/import-sudoers-file-${PID}"
-TEMP_FILE="${TEMP_DIR}/${FILENAME}"
-DESTINATION='/etc/sudoers.d'
+extension='.visudo'
+filename="$(basename ${file} ${extension})"
+temporaryDirectory="/tmp/import-sudoers-file-${pid}"
+temporaryFile="${temporaryDirectory}/${filename}"
+destination='/etc/sudoers.d'
 
 cleanup()
 {
-  echo "Clean-up: delete temporary folder ${TEMP_DIR}"
-  sudo rm -rf ${TEMP_DIR}
+  echo "Clean-up: delete temporary folder ${temporaryDirectory}"
+  sudo rm -rf ${temporaryDirectory}
 }
 
 cleanExit()
@@ -41,26 +41,26 @@ cleanExit()
   exit "$CODE"
 }
 
-echo "Create temporary copy of ${FILE} in ${TEMP_FILE}"
-mkdir ${TEMP_DIR}
-cp --preserve=timestamps ${FILE} ${TEMP_FILE} \
-  || cleanExit "Failed to copy ${FILE} to ${TEMP_FILE}"
+echo "Create temporary copy of ${file} in ${temporaryFile}"
+mkdir ${temporaryDirectory}
+cp --preserve=timestamps ${file} ${temporaryFile} \
+  || cleanExit "Failed to copy ${file} to ${temporaryFile}"
 
 echo 'Change owner/group of temporary file to root'
-sudo chown root:root ${TEMP_FILE} \
+sudo chown root:root ${temporaryFile} \
   || cleanExit 'Failed to change owner'
 
 echo 'Change permissions of temporary file to ug=r,o='
-sudo chmod ug=r,o= ${TEMP_FILE} \
+sudo chmod ug=r,o= ${temporaryFile} \
   || cleanExit 'Failed to change permissions'
 
-echo "Validate ${TEMP_FILE}"
-sudo visudo -s -c -f "${TEMP_FILE}" \
+echo "Validate ${temporaryFile}"
+sudo visudo -s -c -f "${temporaryFile}" \
   || cleanExit 'Validation failed: import aborted'
 
-echo "Move ${TEMP_FILE} to ${DESTINATION}"
-sudo mv --force ${TEMP_FILE} ${DESTINATION} \
-  || cleanExit "Failed to copy sudoers file to ${DESTINATION}"
+echo "Move ${temporaryFile} to ${destination}"
+sudo mv --force ${temporaryFile} ${destination} \
+  || cleanExit "Failed to copy sudoers file to ${destination}"
 
 cleanExit 'Import successful'
 
