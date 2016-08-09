@@ -46,7 +46,8 @@ To mitigate [this risk][AGENT_FORWARDING_RISK], you can run non privileged
 scripts with a different user, and configure distinct SSH key pairs to access
 different servers, using `IdentityFile` directive in `~/.ssh/config`.
 The example `config` below uses `%h` (remote host name) parameter
-in the name of each private key:
+in the name of each private key, which allows to connect to `example.com`
+using either `example.com.rsa`, `example.com.dsa` or `example.com.ecdsa`:
 
 ```
 Host *
