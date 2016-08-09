@@ -37,13 +37,8 @@ DOWNLOAD_URL="${BASE_URL}${DOWNLOAD_PATH}"
 BUILD_DIR="/usr/local/src/pam-ssh-agent-auth-v${VERSION}"
 PAM_PROFILE='/usr/share/pam-configs/pam-ssh-agent-auth'
 
-die()
-{
-  CODE="$?"
-  MESSAGE="$1"
-  echo "$MESSAGE"
-  exit "$CODE"
-}
+cd "$(dirname "$0")"
+. ../util/die.sh
 
 echo 'Install dependencies of pam_ssh_agent_auth library'
 sudo apt-get update

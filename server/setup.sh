@@ -15,20 +15,11 @@
 # https://github.com/eric-brechemier/zero-passwords-server
 user="$1"
 
-die()
-{
-  die_code="$?"
-  die_message="$1"
-  echo "$die_message"
-  exit "$die_code"
-}
+cd "$(dirname "$0")"
+. ../util/die.sh
 
 test -n "$user" || die "Server: no username given for new user"
-
 echo "Server: Configure server with $user as administrator"
-
-echo "Server: Change to the script's directory"
-cd "$(dirname "$0")"
 
 echo "Server: Create new user $user in the group of sudoers"
 ../sudo/create-sudoer.sh "$user" \

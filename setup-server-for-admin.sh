@@ -18,21 +18,12 @@
 server="$1"
 user="$2"
 
-die()
-{
-  die_code="$?"
-  die_message="$1"
-  echo "$die_message"
-  exit "$die_code"
-}
+cd "$(dirname "$0")"
+. ./util/die.sh
 
 test -n "$server" || die "Client: no server name has been provided."
 test -n "$user" || die "Client: no user name has been provided."
-
 echo "Client: Configure $server with $user as administrator"
-
-echo "Client: Change to the script's directory"
-cd "$(dirname "$0")"
 
 folder='zero-passwords-server'
 archive="$folder.tar.gz"
