@@ -85,5 +85,5 @@ echo "Enable new PAM Profile ${pamProfile} by default"
 sudo pam-auth-update --package \
   || die "Failed to enable PAM Profile ${pamProfile}"
 
-die "Installation of ${software} successful"
+echo "Installation of ${software} successful"
 
