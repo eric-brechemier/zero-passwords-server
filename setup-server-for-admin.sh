@@ -28,7 +28,7 @@ echo "Client: Configure $server with $user as administrator"
 folder='zero-passwords-server'
 archive="$folder.tar.gz"
 echo "Client: Package scripts to run remotely and upload them to the server"
-tar -cz server ssh sudo | ssh "root@$server" "cat - > $archive" \
+tar -cz util server ssh sudo | ssh "root@$server" "cat - > $archive" \
   || die "Client: Failed to upload $archive as root@$server"
 
 echo "Client: Unpack the archive into /root/$folder/ in $server"
