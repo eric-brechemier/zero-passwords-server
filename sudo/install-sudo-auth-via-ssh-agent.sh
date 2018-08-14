@@ -1,7 +1,7 @@
 #!/bin/sh
 # Install sudo authentication via SSH agent,
 # using pam_ssh_agent_auth library:
-# http://sourceforge.net/projects/pamsshagentauth/
+# https://github.com/jbeverly/pam_ssh_agent_auth
 #
 # References:
 #
@@ -15,12 +15,19 @@
 #
 # [3] PAM.CONF
 # man pam.d
+#
+# [4] pam_ssh_agent_auth website
+# http://pamsshagentauth.sourceforge.net/
+#
+# [5] pam_ssh_agent_auth on SourceForge
+# https://sourceforge.net/projects/pamsshagentauth/
+#
+# [6] pam_ssh_agent_auth on GitHub (latest source)
+# https://github.com/jbeverly/pam_ssh_agent_auth
+#
 
-# List of downloads, to find latest version available:
-# http://sourceforge.net/projects/pamsshagentauth/files/pam_ssh_agent_auth/
-version='0.10.2'
-modified='2014-03-31'
-echo "Configure latest version available: $version ($modified)"
+cd "$(dirname "$0")"
+. ../util/die.sh
 
 # Configure behavior of the authentication with regards to the stack
 # of available authentication:
@@ -29,38 +36,27 @@ echo "Configure latest version available: $version ($modified)"
 authControlField='[success=done default=die]'
 echo "Configure Authentication Control Field: ${authControlField}"
 
-baseUrl='http://downloads.sourceforge.net/project/pamsshagentauth/'
-software="pam_ssh_agent_auth-${version}"
-archive="${software}.tar.bz2"
-downloadPath="pam_ssh_agent_auth/v${version}/${archive}"
-downloadUrl="${baseUrl}${downloadPath}"
-buildDirectory="/usr/local/src/pam-ssh-agent-auth-v${version}"
+software='pam_ssh_agent_auth'
+sourceDirectory="${software}"
+buildDirectory='/usr/local/src/pam-ssh-agent-auth'
 pamProfile='/usr/share/pam-configs/pam-ssh-agent-auth'
 
-cd "$(dirname "$0")"
-. ../util/die.sh
-
-echo 'Install dependencies of pam_ssh_agent_auth library'
+echo "Install dependencies of ${software} library"
 sudo apt-get update
 sudo apt-get --yes install \
   libssl-dev libpam0g-dev build-essential checkinstall \
   || die 'Failed to install dependencies of pam_ssh_agent_auth'
 
-echo "Create folder ${buildDirectory} for the build"
-mkdir --parents "${buildDirectory}" \
-  || die "Failed to create directory ${buildDirectory}"
-cd "${buildDirectory}"
+echo "Delete build directory ${buildDirectory} if it exists already"
+rm -rf "${buildDirectory}" \
+  || die "Failed to deleted build directory ${buildDirectory}"
 
-echo "Download ${software}"
-wget --timestamping "${downloadUrl}" \
-  || die "Failed to download ${downloadUrl}"
-
-echo "Extract ${archive} to ${software}"
-tar --verbose --extract --bzip2 --file ${archive} \
-  || die "Failed to extract ${archive}"
-cd ${software}
+echo "Copy sources of ${software} to ${buildDirectory}"
+cp -p -R "${sourceDirectory}" "${buildDirectory}" \
+  || die "Failed to copy sources from ${sourceDirectory} to ${buildDirectory}"
 
 echo "Configure and build ${software}"
+cd "${buildDirectory}"
 ./configure --libexecdir=/lib/security --with-mantype=man \
   || die "Failed to configure ${software}"
 make \
