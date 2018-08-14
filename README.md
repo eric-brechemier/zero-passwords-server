@@ -10,6 +10,13 @@ for different flavors of UNIX systems.
 
 ## Usage
 
+0. Clone this project recursively (including all its submodules):
+
+```
+git clone git@github.com:eric-brechemier/zero-passwords-server.git
+git submodule update --init --recursive
+```
+
 1. Create a new server (e.g. a VPS instance)
 2. Add public keys of server administrators to /root/.ssh/authorized\_keys.
    Hint: use ssh-keygen to create the keys and ssh-copy-id to copy them
