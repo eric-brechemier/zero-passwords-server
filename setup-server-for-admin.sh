@@ -21,9 +21,9 @@ user="$2"
 cd "$(dirname "$0")"
 . ./util/die.sh
 
-test -n "$server" || die "Client: no server name has been provided."
-test -n "$user" || die "Client: no user name has been provided."
-echo "Client: Configure $server with $user as administrator"
+test -n "$server" \
+  -a -n "$user" \
+  || die "Usage: $0 server user"
 
 folder='zero-passwords-server'
 archive="$folder.tar.gz"
