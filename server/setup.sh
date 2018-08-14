@@ -55,7 +55,7 @@ echo "Server: Change to /root/$folder directory"
 cd "/root/$folder" \
   || die "Server: Failed to change to /root/$folder folder"
 
-echo "Server: Download and install PAM module for authentication via SSH"
+echo "Server: Install PAM module for authentication via SSH"
 ./sudo/install-sudo-auth-via-ssh-agent.sh \
   || die "Server: Failed to install PAM module for authentication via SSH"
 
