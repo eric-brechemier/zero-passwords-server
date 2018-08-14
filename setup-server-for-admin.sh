@@ -25,6 +25,14 @@ test -n "$server" \
   -a -n "$user" \
   || die "Usage: $0 server user"
 
+submodulesToInit="$(
+  git submodule status --recursive . \
+  | grep '^-' \
+  | cut -d' ' -f2
+)"
+test -z "$submodulesToInit" \
+  || die "Error: git submodules must be initialized: $submodulesToInit"
+
 folder='zero-passwords-server'
 archive="$folder.tar.gz"
 echo "Client: Package scripts to run remotely and upload them to the server"
