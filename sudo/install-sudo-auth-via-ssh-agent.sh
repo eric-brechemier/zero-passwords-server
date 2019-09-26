@@ -58,6 +58,7 @@ cp -p -R "${sourceDirectory}" "${buildDirectory}" \
 echo "Configure and build ${software}"
 cd "${buildDirectory}"
 ./configure --libexecdir=/lib/security --with-mantype=man \
+  --without-openssl-header-check \
   || die "Failed to configure ${software}"
 make \
   || die "Failed to build ${software}"
