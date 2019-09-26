@@ -93,7 +93,8 @@ allow the agent to remember them across reboots.
 3. Run the script /root/zero-passwords-server/server/setup.sh to:
     * create a new user with given username in the group `sudo`
     * copy authorized\_keys of root for the new user
-    * download the PAM module for authentication via SSH agent from SourceForge
+    * copy the PAM module, a submodule of this project, to the server
+    * configure and compile the PAM module on the server
     * setup the PAM module for sudo authentication using SSH agent forwarding
     * disable locale forwarding (the server locale is used instead,
       to avoid errors when client's locale is not available on the server)
